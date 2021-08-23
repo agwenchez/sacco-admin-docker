@@ -3,14 +3,15 @@ import configDB from '../../../data/customizer/config'
 const primary = localStorage.getItem('default_color') || configDB.data.color.primary_color;
 const secondary = localStorage.getItem('secondary_color') || configDB.data.color.secondary_color;
 
+
 // Defaut
 export const Currentlysale = {
   series: [{
-    name: 'series1',
-    data: [6, 20, 15, 40, 18, 20, 18, 23, 18, 35, 30, 55, 0]
+    name: 'Money in',
+    data: [35000, 38000, 39000, 40000, 48000, 45000, 52000, 63000, 68000, 65000, 60000, 55000]
   }, {
-    name: 'series2',
-    data: [2, 22, 35, 32, 40, 25, 50, 38, 42, 28, 20, 45, 0]
+    name: 'Money out',
+    data: [30000, 32000, 34000, 32000, 40000, 38000, 47000, 56000, 62000, 58000, 52000, 45000]
   }],
   options: {
     chart: {
@@ -31,20 +32,20 @@ export const Currentlysale = {
       low: 0,
       offsetX: 0,
       offsetY: 0,
-      show: false,
-      categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan"],
+      show: true,
+      categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
       labels: {
         low: 0,
         offsetX: 0,
-        show: false,
+        show: true,
       },
       axisBorder: {
-        low: 0,
-        offsetX: 0,
+        low: 5,
+        offsetX: 5,
         show: false,
       },
       axisTicks: {
-        show: false,
+        show: true,
       },
     },
     markers: {
@@ -59,37 +60,41 @@ export const Currentlysale = {
       low: 0,
       offsetX: 0,
       offsetY: 0,
-      show: false,
+      show: true,
       labels: {
         low: 0,
-        offsetX: 0,
-        show: false,
+        offsetX: -13,
+        show: true,
       },
       axisBorder: {
         low: 0,
         offsetX: 0,
-        show: false,
+        show: true
       },
     },
     grid: {
-      show: false,
+      show: true,
       padding: {
         left: 0,
         right: 0,
-        bottom: -15,
-        top: -40
+        // bottom: 5,
+        // top: -5
       }
     },
-    colors: [primary, secondary],
+    colors: [primary, 'red'],
     fill: {
-      type: 'gradient',
-      gradient: {
-        shadeIntensity: 1,
-        opacityFrom: 0.7,
-        opacityTo: 0.5,
-        stops: [0, 80, 100]
-      }
+      colors: ['#fcf8ff', '#f7eeff']
     },
+
+    // fill: {
+    //   type: 'gradient',
+    //   gradient: {
+    //     shadeIntensity: 0.5,
+    //     opacityFrom: 0.7,
+    //     opacityTo: 0.5,
+    //     stops: [0, 80, 100]
+    //   }
+    // },
     legend: {
       show: false,
     },

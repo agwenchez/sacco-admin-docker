@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect, forwardRef } from 'react';
 import { Container } from 'reactstrap'
-import { Grid, Button } from '@material-ui/core/'
+import { Grid, Button, Tooltip } from '@material-ui/core/'
 import MaterialTable from "material-table";
 import { AddBox, ArrowDownward, Check, ChevronLeft, ChevronRight, Clear, DeleteOutline, Edit, FilterList, FirstPage, LastPage, Remove, ViewColumn, SaveAlt, Search } from "@material-ui/icons";
 import axios from 'axios';
@@ -12,7 +12,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Layout from "../AppWrapper"
 import ConfirmDelete from './ConfirmDelete'
 import CustomizedProgressBars from './CircularProgress';
-
+import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 // import { Delete } from 'react-feather';
 
 
@@ -42,31 +42,52 @@ const api = axios.create({
   baseURL: `https://afya-kwanza-backend.herokuapp.com`
 })
 
-function validateEmail(email) {
-  const re = /^((?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\]))$/;
-  return re.test(String(email).toLowerCase());
-}
 
 const MembersTable = () => {
   const [name, setName] = useState([]); //table data
   const [riders, setRiders] = useState([])
   const [loading, setLoading] = useState(false)
+  const [selectedRow, setSelectedRow] = useState(null);
 
 
   var columns = [
-    { title: "id", field: "id", hidden: true },
-    // { title: "Avatar", render: rowData => <Avatar maxInitials={1} size={40} round={true} name={rowData === undefined ? " " : rowData.first_name} /> },
-    { title: "Name", field: "name" },
+    // { title: "Avatar", render: rowData => <Avatar maxInitials={1} size={30} round={true} name={rowData === undefined ? " " : rowData.first_name} /> },
+    { title: "Full Name", field: "full_name" },
+    { title: "D.O.B", field: "date_of_birth" },
+    { title: "ID No", field: "id_number" },
+    { title: "Phone Number", field: "phonenumber" },
+    { title: "Gender", field: "gender" },
+    // { title: "Sacco", field: "sacco" },
+    { title: "Route Name", field: "route_name" },
     { title: "Email", field: "email" },
-    { title: "Phone No", field: "phonenumber" },
-    { title: "Location", field: "location" },
-    { title: "Insruance Plan", field: "insurance_plan" },
     {
       cellStyle: {
-        paddingLeft: "10%"
+        paddingLeft: "7%"
       },
       headerStyle: {
-        paddingLeft: "10%"
+        paddingLeft: "7%"
+      },
+      render: rowData => (
+        <Link
+          to={{
+            pathname: "/dashboard/members/dependants",
+            state: {
+              id: rowData.id_number
+            }
+          }}
+        >
+          <Tooltip title="Dependant(s)">
+            <PeopleOutlineIcon style={{ color: 'black' }} />
+          </Tooltip>
+        </Link>
+      )
+    },
+    {
+      cellStyle: {
+        paddingLeft: "4.5%"
+      },
+      headerStyle: {
+        paddingLeft: "4.5%"
       },
       render: rowData => (
         <Link
@@ -84,13 +105,13 @@ const MembersTable = () => {
       )
     },
     {
-      cellStyle: {
-        paddingRight: "7%"
-      },
-      headerStyle: {
-        paddingRight: "7%"
-      },
-      render: rowData => (<ConfirmDelete onDelete={() => handleDelete(rowData.member_id)} name={rowData.name} openDialog={openDialog} />)
+      // cellStyle: {
+      //   paddingRight: "7%"
+      // },
+      // headerStyle: {
+      //   paddingRight: "7%"
+      // },
+      render: rowData => (<ConfirmDelete onDelete={() => handleDelete(rowData.member_id)} name={rowData.full_name} openDialog={openDialog} />)
     },
 
   ]
@@ -119,9 +140,9 @@ const MembersTable = () => {
 
   useEffect(() => {
 
-    setName(localStorage.sacco_name)
+    // setName()
     setLoading(true)
-    api.get(`/saccos/members/${name}`)
+    api.get(`/saccos/members/${localStorage.sacco_name}`)
       .then(res => {
         // console.log("data =>", res.data)
         setRiders(res.data)
@@ -131,7 +152,7 @@ const MembersTable = () => {
         console.log("Error", error)
       })
 
-  }, [name])
+  }, [])
 
   const history = useHistory();
 
@@ -143,8 +164,8 @@ const MembersTable = () => {
         <Container fluid={true}>
           <div style={{ width: '100%' }}>
 
-            <h3 style={{ paddingTop: '10%', textAlign: 'center' }}>Sacco Members Table</h3>
-            <Grid container spacing={10} style={{ paddingTop: '5%' }}>
+            <h3 style={{ paddingTop: '5%', textAlign: 'center' }}>Sacco Members Table</h3>
+            <Grid container spacing={10} style={{ paddingTop: '2.5%' }}>
               <Grid item xs="2"></Grid>
               <Grid item xs="2"></Grid>
               <Grid item xs="2"></Grid>
@@ -172,21 +193,22 @@ const MembersTable = () => {
                     icons={tableIcons}
                     options={{
                       exportButton: true,
-                      selection: true,
-                      // filtering: true,
+                      rowStyle: rowData => ({
+                        backgroundColor: (selectedRow === rowData.tableData.id) ? '#EEE' : 'white'
+                      }),
                       actionsColumnIndex: -1,
                       search: true,
                       paginationType: 'normal',
-                      pageSize: 10,
-                      pageSizeOptions: [25, 50, 100, 200, 300, 400, 500, 600, 700]
+                      pageSize: 25,
+                      pageSizeOptions: [ 50, 100, 200]
                     }}
-                    actions={[
-                      {
-                        tooltip: 'Remove All Selected Users',
-                        icon: DeleteOutline,
-                        onClick: (evt, data) => alert('You want to delete ' + data.length + ' rows')
-                      }
-                    ]}
+                    // actions={[
+                    //   {
+                    //     tooltip: 'Remove All Selected Users',
+                    //     icon: DeleteOutline,
+                    //     onClick: (evt, data) => alert('You want to delete ' + data.length + ' rows')
+                    //   }
+                    // ]}
 
                   />)}
               </Grid>

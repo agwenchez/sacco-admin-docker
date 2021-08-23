@@ -916,7 +916,7 @@ export const apexMemberBarChart = {
     },
     plotOptions: {
       bar: {
-        horizontal: true,
+        horizontal: false,
       }
     },
     dataLabels: {

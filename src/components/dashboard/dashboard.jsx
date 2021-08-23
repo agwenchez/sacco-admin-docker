@@ -19,15 +19,14 @@ const Dashboard = () => {
 
   // const jwt_token = localStorage.tokenated
   const getProfile = async () => {
-    setToken(localStorage.tokenated)
-    console.log("Stored token=>",token)
+    // console.log("Stored token=>",token)
     try {
       const res = await api.get("/saccos/sacco/profile", {
-        headers: { token: token }
+        headers: { token: localStorage.tokenated }
       });
 
       // const data = await res.json();
-      console.log("data from server==>", res.data)
+      // console.log("data from server==>", res.data)
       const data = res.data
       setlastName(data.sacco_info.admin_lastname)
       setfirstName(data.sacco_info.admin_firstname)
@@ -46,7 +45,7 @@ const Dashboard = () => {
     getProfile()
 
 
-  }, [token])
+  }, [])
 
 
   return (

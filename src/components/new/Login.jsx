@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Avatar, Button, TextField, FormControlLabel, Checkbox, CssBaseline } from '@material-ui/core';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
@@ -90,8 +90,8 @@ const Login = () => {
         });
         const data = response.data
         localStorage.setItem('sacco_name', data.sacco_info.sacco_name)
-        localStorage.setItem('lastname', data.sacco_info.admin_lastname)
-        localStorage.setItem('firstname', data.sacco_info.admin_firstname)
+        localStorage.setItem('last_name', data.sacco_info.admin_lastname)
+        localStorage.setItem('first_name', data.sacco_info.admin_firstname)
         localStorage.setItem('role', data.sacco_info.role)
         localStorage.setItem('members', data.members)
         localStorage.setItem("tokenated", res.data.token);
@@ -118,7 +118,11 @@ const Login = () => {
     }
   };
 
+ useEffect(() => {
+  
+  localStorage.tokenated && history.push("/")
 
+ }, [])
 
   return (
     <>
@@ -129,12 +133,12 @@ const Login = () => {
             <Grid item xs={false} sm={4} md={5} className={classes.image} />
             <Grid item xs={12} sm={8} md={7} component={Paper} elevation={6} square>
               <div className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                  <LockOutlinedIcon />
-                </Avatar>
+                       
+                <img src ={require('../../assets/images/AFYA KWANZA LOGO.png')}/>
+              
                 <Typography component="h1" variant="h5" style={{ marginBottom: '3%' }}>
                   Sacco Admin Login
-          </Typography>
+                </Typography>
                 <form className={classes.form} onSubmit={onSubmitForm}>
                   <TextField
                     variant="outlined"
@@ -178,9 +182,9 @@ const Login = () => {
             </Button>
                   <Grid container>
                     <Grid item xs>
-                      <Link href="#" variant="body2">
+                      {/* <Link href="#" variant="body2">
                         Forgot password?
-                </Link>
+                      </Link> */}
                     </Grid>
                     {/* <Grid item style={{display:'none'}}>
                 <Link href="#" variant="body2">

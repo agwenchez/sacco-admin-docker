@@ -13,36 +13,15 @@ const api = axios.create({
 })
 
 
-const validationSchema = yup.object().shape({
-  name: yup
-    .string('Enter a name')
-    .required('Name is a required field'),
-  email: yup
-    .string('Enter a sacco email')
-    .email('Enter a valid email')
-    .required('Email is required'),
-  admin_name: yup
-    .string('Enter Admin Name')
-    .max(30, 'Admin name should be 30 characters max')
-    .required('Amin Name is a required field'),
-  admin_password: yup
-    .string('Enter an admin password')
-    .required('Admin password is a required field')
-});
-
-
 const SaccoProfile = (props) => {
 
   const [data, setData] = useState({})
-  const [token, setToken] = useState('')
 
   const getProfile = async () => {
-    setToken(localStorage.tokenated)
-    console.log("Stored token=>", token)
 
     try {
       const res = await api.get("/saccos/sacco/profile", {
-        headers: { token: token }
+        headers: { token: localStorage.tokenated }
       });
 
       
@@ -64,7 +43,7 @@ const SaccoProfile = (props) => {
 
     try {
       const res = await api.put(`/saccos/update/${data.sacco_id}`, {sacco_name, sacco_email,admin_email,admin_firstname,admin_lastname,admin_phonenumber})
-      console.log("response data=>", res.data.data)
+      // console.log("response data=>", res.data.data)
 
       localStorage.setItem('firstname_update', res.data.data.admin_firstname)
       localStorage.setItem('lastname_update', res.data.data.admin_lastname)
@@ -85,7 +64,7 @@ const SaccoProfile = (props) => {
   useEffect(() => {
     getProfile()
 
-  }, [token])
+  }, [])
 
  
 

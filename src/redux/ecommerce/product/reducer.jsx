@@ -14,8 +14,7 @@ const INIT_STATE = {
 
 export default (state = INIT_STATE, action) => {
 
-    switch (action.type) {
-        
+    switch (action.type) {  
 
         case GET_ALL_PRODUCT:
             return { ...state };

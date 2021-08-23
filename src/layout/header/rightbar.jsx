@@ -54,41 +54,14 @@ const Rightbar = (props) => {
   const [role, setRole] = useState('')
 
 
-  // const [name, setName] = useState("")
-  // const jwt_token = localStorage.tokenated
-  const getProfile = async () => {
-    setToken(localStorage.tokenated)
-    // console.log("Stored token=>",token)
-    try {
-      const res = await api.get("/saccos/sacco/profile", {
-        headers: { token: token }
-      });
 
-      // const data = await res.json();
-      // console.log("data from server==>", res.data)
-      // setUser(res.data)
-      setRole(res.data.sacco_info.role)
-      setFirstname(res.data.sacco_info.admin_firstname)
-      setLastname(res.data.sacco_info.admin_lastname)
-      // console.log("Async  user==>", user)
-    } catch (err) {
-      console.error(err.message);
-      // err.message == 'Request failed with status code 403' && history.push('/login')
-    }
-  };
 
   useEffect(() => {
-    getProfile()
 
-    // console.log("stored firstname=>",localStorage.firstname)
-    // console.log("stored lastname=>",localStorage.lastname)
-    // console.log("stored firstname updated=>",localStorage.firstname_update)
-    // console.log("stored lastname updated=>",localStorage.lastname_update)
-    // setFirstname(localStorage.firstname === undefined ? localStorage.firstname: localStorage.firstname_update)
-    // setLastname(localStorage.lastname === undefined ? localStorage.lastname : localStorage.lastname_update)
-    // setRole(localStorage.role)
-    // console.log("state firstname data==>",first_name)
-  }, [token])
+    setFirstname(localStorage.first_name)
+    setLastname(localStorage.last_name)
+
+  }, [first_name, last_name])
 
 
   // useEffect(() => {
@@ -196,7 +169,7 @@ const Rightbar = (props) => {
             <Avatar maxInitials={1} size={40} round={true} name={first_name}  color={'gray'}/> 
               {/* <img className="b-r-10" src={ profile} alt="" /> */}
               <div className="media-body"><span>{first_name} {last_name}</span>
-                <p className="mb-0 font-roboto">{role} <i className="middle fa fa-angle-down"></i></p>
+                <p className="mb-0 font-roboto">Sacco Admin <i className="middle fa fa-angle-down"></i></p>
               </div>
             </div>
             <ul className="profile-dropdown onhover-show-div">

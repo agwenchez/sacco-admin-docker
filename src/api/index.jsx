@@ -1,5 +1,13 @@
 import axios from "axios";
 
+const api = axios.create({
+    baseURL: `https://afya-kwanza-backend.herokuapp.com`
+})
+
+export const login = (body) => {
+    return api.post('/saccos/admin/login', body)
+};
+
 export const fetchProductApi = () => {
     return axios.get(`${process.env.PUBLIC_URL}/api/product.json`);
 };

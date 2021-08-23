@@ -1,5 +1,6 @@
 {
   "name": "afaya-kwanza",
+  "homepage": "https://demos.mediapal.net/afya/sacco-admin/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -23,6 +24,7 @@
     "emoji-mart": "^3.0.0",
     "feather-icons": "^4.28.0",
     "firebase": "^7.15.5",
+    "flutterwave-react-v3": "^1.0.10",
     "formik": "^2.2.6",
     "knob": "^1.1.0",
     "leaflet": "^1.6.0",

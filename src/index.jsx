@@ -23,8 +23,6 @@ import Maintenance from "./pages/maintenance"
 import Login from "../src/components/new/Login"
 import Callback from './auth/callback'
 
-// setup fake backend
-// configureFakeBackend();
 
 
 ReactDOM.render(
